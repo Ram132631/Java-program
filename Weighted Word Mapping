@@ -1,0 +1,30 @@
+import java.util.*;
+public class Main {
+    public String mapWordWeights(String[] words, int[] weights) {
+        StringBuilder ans = new StringBuilder();
+        for (String word : words) {
+            long sum = 0;
+            for (char ch : word.toCharArray()) {
+                sum += weights[ch - 'a'];
+            }
+            int remainder = (int) (sum % 26);
+            ans.append((char) ('z' - remainder));
+        }
+        return ans.toString();
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // number of words
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.next();
+        }
+        int[] weights = new int[26];
+        for (int i = 0; i < 26; i++) {
+            weights[i] = sc.nextInt();
+        }
+        Main obj = new Main();
+        System.out.println(obj.mapWordWeights(words, weights));
+        sc.close();
+    }
+}
