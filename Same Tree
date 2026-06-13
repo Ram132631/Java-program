@@ -1,0 +1,41 @@
+import java.util.*;
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+public class Main {
+    static boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null)
+            return true;
+        if (p == null || q == null)
+            return false;
+        return p.val == q.val
+                && isSameTree(p.left, q.left)
+                && isSameTree(p.right, q.right);
+    }
+    static TreeNode buildTree(Scanner sc) {
+        int val = sc.nextInt();
+        if (val == -1)
+            return null;
+        TreeNode node = new TreeNode(val);
+        node.left = buildTree(sc);
+        node.right = buildTree(sc);
+        return node;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter Tree 1 (-1 for null):");
+        TreeNode p = buildTree(sc);
+        System.out.println("Enter Tree 2 (-1 for null):");
+        TreeNode q = buildTree(sc);
+        if (isSameTree(p, q))
+            System.out.println("Trees are identical");
+        else
+            System.out.println("Trees are not identical");
+
+        sc.close();
+    }
+}
