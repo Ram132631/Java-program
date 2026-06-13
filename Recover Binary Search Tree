@@ -1,0 +1,54 @@
+import java.util.*;
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+public class Main {
+    TreeNode first;
+    TreeNode second;
+    TreeNode prev;
+    public void recoverTree(TreeNode root) {
+        helper(root);
+        int temp = first.val;
+        first.val = second.val;
+        second.val = temp;
+    }
+    private void helper(TreeNode node) {
+        if (node == null)
+            return;
+        helper(node.left);
+        if (prev != null && prev.val > node.val) {
+            if (first == null) {
+                first = prev;
+            }
+            second = node;
+        }
+        prev = node;
+        helper(node.right);
+    }
+    private void inorder(TreeNode root) {
+        if (root == null)
+            return;
+        inorder(root.left);
+        System.out.print(root.val + " ");
+        inorder(root.right);
+    }
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(1);
+        root.right = new TreeNode(4);
+        root.right.left = new TreeNode(2);
+        Main obj = new Main();
+        System.out.print("Before Recovery: ");
+        obj.inorder(root);
+        System.out.println();
+        obj.recoverTree(root);
+        System.out.print("After Recovery: ");
+        obj.inorder(root);
+        System.out.println();
+    }
+}
