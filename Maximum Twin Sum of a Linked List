@@ -1,0 +1,51 @@
+import java.util.*;
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) {
+        this.val = val;
+    }
+}
+public class Main {
+    static class NodeWrapper {
+        ListNode node;
+    }
+    public int pairSum(ListNode head) {
+        if (head.next.next == null) {
+            return head.val + head.next.val;
+        }
+        int[] result = new int[1];
+        NodeWrapper q = new NodeWrapper();
+        traverse(head, head, result, q);
+        return result[0];
+    }
+    private void traverse(ListNode head, ListNode p,
+                          int[] result, NodeWrapper q) {
+        if (p != null) {
+            q.node = head.next;
+            traverse(head.next, p.next.next, result, q);
+            result[0] = Math.max(result[0],
+                                 head.val + q.node.val);
+            q.node = q.node.next;
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        ListNode head = null;
+        ListNode tail = null;
+        for (int i = 0; i < n; i++) {
+            int val = sc.nextInt();
+            ListNode node = new ListNode(val);
+            if (head == null) {
+                head = tail = node;
+            } else {
+                tail.next = node;
+                tail = node;
+            }
+        }
+        Main obj = new Main();
+        System.out.println(obj.pairSum(head));
+        sc.close();
+    }
+}

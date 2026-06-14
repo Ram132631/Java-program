@@ -1,0 +1,49 @@
+import java.util.*;
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+public class Main {
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return isMirror(root.left, root.right);
+    }
+    private boolean isMirror(TreeNode n1, TreeNode n2) {
+        if (n1 == null && n2 == null) {
+            return true;
+        }
+        if (n1 == null || n2 == null) {
+            return false;
+        }
+        return n1.val == n2.val
+                && isMirror(n1.left, n2.right)
+                && isMirror(n1.right, n2.left);
+    }
+    static TreeNode buildTree(Scanner sc) {
+        int val = sc.nextInt();
+        if (val == -1) {
+            return null;
+        }
+        TreeNode node = new TreeNode(val);
+        node.left = buildTree(sc);
+        node.right = buildTree(sc);
+        return node;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter tree nodes in preorder (-1 for null):");
+        TreeNode root = buildTree(sc);
+        Main obj = new Main();
+        if (obj.isSymmetric(root)) {
+            System.out.println("Symmetric Tree");
+        } else {
+            System.out.println("Not Symmetric");
+        }
+        sc.close();
+    }
+}
