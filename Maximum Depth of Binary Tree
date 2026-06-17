@@ -1,0 +1,37 @@
+import java.util.*;
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+public class Main {
+    public int maxDepth(TreeNode root) {
+        return helper(root);
+    }
+    public int helper(TreeNode node) {
+        if (node == null)
+            return 0;
+        int left = helper(node.left);
+        int right = helper(node.right);
+        return Math.max(left, right) + 1;
+    }
+    static TreeNode buildTree(Scanner sc) {
+        int val = sc.nextInt();
+        if (val == -1)
+            return null;
+        TreeNode node = new TreeNode(val);
+        node.left = buildTree(sc);
+        node.right = buildTree(sc);
+        return node;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter tree in preorder (-1 for null):");
+        TreeNode root = buildTree(sc);
+        Main obj = new Main();
+        System.out.println("Maximum Depth = " + obj.maxDepth(root));
+        sc.close();
+    }
+}
