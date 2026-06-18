@@ -1,0 +1,54 @@
+import java.util.*;
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+public class Main {
+    private int preorderIndex;
+    private Map<Integer, Integer> mapping;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        mapping = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            mapping.put(inorder[i], i);
+        }
+        preorderIndex = 0;
+        return build(preorder, 0, inorder.length - 1);
+    }
+    private TreeNode build(int[] preorder, int start, int end) {
+        if (start > end)
+            return null;
+        int rootVal = preorder[preorderIndex++];
+        TreeNode root = new TreeNode(rootVal);
+        int mid = mapping.get(rootVal);
+        root.left = build(preorder, start, mid - 1);
+        root.right = build(preorder, mid + 1, end);
+        return root;
+    }
+    static void printInorder(TreeNode root) {
+        if (root == null)
+            return;
+        printInorder(root.left);
+        System.out.print(root.val + " ");
+        printInorder(root.right);
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] preorder = new int[n];
+        int[] inorder = new int[n];
+        for (int i = 0; i < n; i++) {
+            preorder[i] = sc.nextInt();
+        }
+        for (int i = 0; i < n; i++) {
+            inorder[i] = sc.nextInt();
+        }
+        Main obj = new Main();
+        TreeNode root = obj.buildTree(preorder, inorder);
+        System.out.print("Inorder Traversal of Constructed Tree: ");
+        printInorder(root);
+        sc.close();
+    }
+}
